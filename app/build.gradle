@@ -1,0 +1,54 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+
+def versionBuild = 0//Resets each time versionName is incremented
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+
+        versionName "1.0"
+        versionCode 1
+
+        applicationId "com.liamdegrey.rocketlaunches"
+
+        //URL is the same across environments
+        buildConfigField("String", "SERVICE_BASEURL", "\"https://spacelaunchnow.me/api/3.3.0/launch/upcoming/\"")
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    productFlavors {
+        flavorDimensions "environment"
+
+        dev {
+            dimension "environment"
+
+            applicationIdSuffix ".dev"
+            versionNameSuffix "b$versionBuild"
+        }
+        prod {
+            dimension "environment"
+
+            versionNameSuffix ".$versionBuild"
+        }
+    }
+}
+
+dependencies {
+
+    //Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Android
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.core:core-ktx:1.1.0"
+}
