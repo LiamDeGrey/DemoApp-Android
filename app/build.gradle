@@ -17,7 +17,7 @@ android {
         applicationId "com.liamdegrey.rocketlaunches"
 
         //URL is the same across environments
-        buildConfigField("String", "SERVICE_BASEURL", "\"https://spacelaunchnow.me/api/3.3.0/launch/upcoming/\"")
+        buildConfigField("String", "SERVICE_BASEURL", "\"https://spacelaunchnow.me\"")
     }
 
     buildTypes {
@@ -51,4 +51,14 @@ dependencies {
     //Android
     implementation "androidx.appcompat:appcompat:1.1.0"
     implementation "androidx.core:core-ktx:1.1.0"
+
+    //Network
+    implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+
+    //Deserialization
+    implementation "com.squareup.retrofit2:converter-jackson:2.3.0"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.10.2"
+
 }
