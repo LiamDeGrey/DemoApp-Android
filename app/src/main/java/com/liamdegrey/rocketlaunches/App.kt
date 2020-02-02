@@ -18,12 +18,6 @@ class App : Application() {
     private val objectMapper by lazy { createObjectMapper() }
 
 
-    override fun onCreate() {
-        instance = this
-
-        super.onCreate()
-    }
-
     private fun createOkHttpClient() =
         OkHttpClient.Builder()
             .addInterceptor(
@@ -50,8 +44,5 @@ class App : Application() {
 
     companion object {
         private const val NETWORK_TIMEOUT_SECONDS = 10L
-
-        lateinit var instance: App
-            private set
     }
 }

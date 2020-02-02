@@ -43,6 +43,8 @@ class LoadingView : FrameLayout, Animator.AnimatorListener {
             duration = ROTATION_DURATION_MILLISECONDS
             addListener(this@LoadingView)
         }
+
+        addView(spinningView)
     }
 
     fun setLoading(loading: Boolean) {

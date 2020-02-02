@@ -1,16 +1,16 @@
 package com.liamdegrey.rocketlaunches.ui.common
 
+import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.liamdegrey.rocketlaunches.App
 import com.liamdegrey.rocketlaunches.helpers.livedata.InstantClearLiveData
 import io.reactivex.disposables.Disposable
 
-abstract class BaseViewModel : AndroidViewModel(App.instance) {
-    val isLoading = MutableLiveData<Boolean>()
-    val newFragment = InstantClearLiveData<BaseFragment>()
-    val finishScreen = InstantClearLiveData<Boolean>()
+abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
+    val isLoading by lazy { MutableLiveData<Boolean>() }
+    val newFragment by lazy { InstantClearLiveData<BaseFragment>() }
+    val finishScreen by lazy { InstantClearLiveData<Boolean>() }
 
     private var subscriptions: MutableList<Disposable>? = null
 

@@ -8,9 +8,9 @@ import org.joda.time.DateTime
 @Parcelize
 data class RocketLaunch(
     @JsonProperty("name") val name: String,
-    @JsonProperty("img_url") val imageUrl: String,
+    @JsonProperty("img_url") val imageUrl: String?,
     @JsonProperty("pad") val launchPad: LaunchPad,
     @JsonProperty("status") val launchStatus: LaunchStatus,
     @JsonProperty("window_start") val date: DateTime,
-    @JsonProperty("mission") val mission: Mission
+    @JsonProperty("mission") val mission: Mission?
 ) : Parcelable
