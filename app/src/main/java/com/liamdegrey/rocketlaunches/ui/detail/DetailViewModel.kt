@@ -18,10 +18,6 @@ class DetailViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
-    fun onHomeClicked() {
-        finishScreen()
-    }
-
     //region: View methods
 
     private fun setRocketLaunch(rocketLaunch: RocketLaunch) {
