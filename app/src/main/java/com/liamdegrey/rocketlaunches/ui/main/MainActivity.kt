@@ -14,11 +14,11 @@ import com.liamdegrey.rocketlaunches.ui.common.BaseActivity
 import com.liamdegrey.rocketlaunches.ui.main.adapters.RocketLaunchesAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), RocketLaunchesAdapter.Callbacks {
     override val layoutResId = R.layout.activity_main
     override val viewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
 
-    private val rocketLaunchesAdapter by lazy { RocketLaunchesAdapter() }
+    private val rocketLaunchesAdapter by lazy { RocketLaunchesAdapter(this) }
 
 
     override fun onViewCreated() {
@@ -33,6 +33,10 @@ class MainActivity : BaseActivity() {
         spaceRocketLaunchesList()
 
         setSupportActionBar(toolbar)
+    }
+
+    override fun onRocketLaunchViewClicked(position: Int) {
+        viewModel.onRocketLaunchViewClicked(position)
     }
 
     //region: Private methods

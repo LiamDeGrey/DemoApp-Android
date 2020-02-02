@@ -2,7 +2,6 @@ package com.liamdegrey.rocketlaunches.ui.main
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.liamdegrey.rocketlaunches.App
 import com.liamdegrey.rocketlaunches.R
@@ -31,9 +30,14 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
                 }, {
                     //Failed to load items
                     setErrorMessage(getApplication<App>().getString(R.string.main_errorMessage))
-                    Log.v("debuggered", it.localizedMessage)
                 })
         )
+    }
+
+    fun onRocketLaunchViewClicked(position: Int) {
+        rocketLaunches.value?.get(position)?.let {
+            //            startFragment()
+        }
     }
 
     //region: View methods

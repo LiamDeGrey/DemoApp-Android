@@ -17,7 +17,8 @@ class RocketLaunchView private constructor(context: Context) : CardView(context)
         View.inflate(context, R.layout.view_rocketlaunch, this)
     }
 
-    class Holder(context: Context) : RecyclerView.ViewHolder(RocketLaunchView(context)) {
+    class Holder(context: Context) :
+        RecyclerView.ViewHolder(RocketLaunchView(context)) {
 
         init {
             itemView.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
