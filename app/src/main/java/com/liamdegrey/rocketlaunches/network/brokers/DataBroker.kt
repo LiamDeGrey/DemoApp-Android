@@ -16,6 +16,6 @@ class DataBroker(
         service.getUpcomingRocketLaunches(MAX_ROCKET_LAUNCHES)
 
     companion object {
-        private const val MAX_ROCKET_LAUNCHES = 30
+        private const val MAX_ROCKET_LAUNCHES = 50
     }
 }
