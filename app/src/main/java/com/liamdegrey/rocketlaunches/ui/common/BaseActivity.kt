@@ -42,6 +42,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected abstract fun onViewCreated()
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+
+        return true
+    }
+
     override fun onResume() {
         super.onResume()
 

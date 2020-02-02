@@ -7,11 +7,13 @@ import com.liamdegrey.rocketlaunches.App
 import com.liamdegrey.rocketlaunches.R
 import com.liamdegrey.rocketlaunches.network.models.RocketLaunch
 import com.liamdegrey.rocketlaunches.ui.common.BaseViewModel
+import com.liamdegrey.rocketlaunches.ui.detail.DetailFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class MainViewModel(app: Application) : BaseViewModel(app) {
     private val dataBroker by lazy { getApplication<App>().dataBroker }
 
+    val isRefreshing by lazy { MutableLiveData<Boolean>() }
     val rocketLaunches by lazy { MutableLiveData<List<RocketLaunch>>() }
     val errorMessage by lazy { MutableLiveData<String?>() }
 
@@ -20,10 +22,17 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
         super.attach(args)
 
         setLoading(true)
+        refreshData()
+    }
+
+    fun refreshData() {
         subscribe(
             dataBroker.getUpcomingRocketLaunches()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doFinally { setLoading(false) }
+                .doFinally {
+                    setLoading(false)
+                    setRefreshing(false)
+                }
                 .subscribe({
                     //Loaded items
                     setRocketLaunches(it.rocketLaunches)
@@ -36,11 +45,15 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
 
     fun onRocketLaunchViewClicked(position: Int) {
         rocketLaunches.value?.get(position)?.let {
-            //            startFragment()
+            startFragment(DetailFragment())
         }
     }
 
     //region: View methods
+
+    private fun setRefreshing(isRefreshing: Boolean) {
+        this.isRefreshing.value = isRefreshing
+    }
 
     private fun setRocketLaunches(rocketLaunches: List<RocketLaunch>) {
         this.rocketLaunches.value = rocketLaunches

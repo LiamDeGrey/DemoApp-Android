@@ -5,4 +5,7 @@
     <string name="main_errorMessage">Rocket launches couldn\'t be loaded, try again later.</string>
     <string name="main_launchedFrom">Launched from %s</string>
 
+    <!-- Detail strings -->
+    <string name="detail_title">Details</string>
+
 </resources>

@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.liamdegrey.rocketlaunches.R
 import com.liamdegrey.rocketlaunches.helpers.extensions.nonNullObserve
 import com.liamdegrey.rocketlaunches.network.models.RocketLaunch
@@ -14,7 +15,8 @@ import com.liamdegrey.rocketlaunches.ui.common.BaseActivity
 import com.liamdegrey.rocketlaunches.ui.main.adapters.RocketLaunchesAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity(), RocketLaunchesAdapter.Callbacks {
+class MainActivity : BaseActivity(), RocketLaunchesAdapter.Callbacks,
+    SwipeRefreshLayout.OnRefreshListener {
     override val layoutResId = R.layout.activity_main
     override val viewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
 
@@ -22,6 +24,9 @@ class MainActivity : BaseActivity(), RocketLaunchesAdapter.Callbacks {
 
 
     override fun onViewCreated() {
+        viewModel.isRefreshing.nonNullObserve(this) {
+            setRefreshing(it)
+        }
         viewModel.rocketLaunches.nonNullObserve(this) {
             setRocketLaunches(it)
         }
@@ -32,7 +37,14 @@ class MainActivity : BaseActivity(), RocketLaunchesAdapter.Callbacks {
         main_rocketLaunchesList.adapter = rocketLaunchesAdapter
         spaceRocketLaunchesList()
 
+        main_swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark)
+        main_swipeRefreshLayout.setOnRefreshListener(this)
+
         setSupportActionBar(toolbar)
+    }
+
+    override fun onRefresh() {
+        viewModel.refreshData()
     }
 
     override fun onRocketLaunchViewClicked(position: Int) {
@@ -65,6 +77,10 @@ class MainActivity : BaseActivity(), RocketLaunchesAdapter.Callbacks {
     //endregion
 
     //region: View methods
+
+    private fun setRefreshing(isRefreshing: Boolean) {
+        main_swipeRefreshLayout.isRefreshing = isRefreshing
+    }
 
     private fun setRocketLaunches(rocketLaunches: List<RocketLaunch>) {
         rocketLaunchesAdapter.setData(rocketLaunches)

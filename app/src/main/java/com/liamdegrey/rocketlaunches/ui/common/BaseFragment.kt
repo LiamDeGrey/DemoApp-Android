@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.liamdegrey.rocketlaunches.R
 import com.liamdegrey.rocketlaunches.helpers.extensions.nonNullObserve
@@ -72,6 +74,12 @@ abstract class BaseFragment : Fragment() {
 
     internal fun consumeBackPress() =
         isLoading || viewModel.consumeBackPress()
+
+    protected fun setSupportActionBar(toolbar: Toolbar, @StringRes titleRes: Int) {
+        activity?.setSupportActionBar(toolbar)
+        activity?.supportActionBar?.title = getString(titleRes)
+        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
     //region: View methods
 

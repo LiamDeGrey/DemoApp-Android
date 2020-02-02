@@ -27,16 +27,20 @@ class RocketLaunchView private constructor(context: Context) : CardView(context)
         fun populate(rocketLaunch: RocketLaunch) {
             Glide
                 .with(itemView)
-                .load(rocketLaunch.imageUrl)
+                .load(rocketLaunch.getPhotoUrl())
                 .placeholder(R.drawable.ic_refresh)
                 .error(android.R.drawable.ic_delete)
                 .into(itemView.rocketLaunch_imageView)
 
+            val countryCodeOfInterest = rocketLaunch.getLaunchCountryCode()
             itemView.rocketLaunch_nameView.text = rocketLaunch.name
-            itemView.rocketLaunch_location.text = itemView.context.getString(
+            itemView.rocketLaunch_locationView.text = itemView.context.getString(
                 R.string.main_launchedFrom,
                 rocketLaunch.launchPad.location.label
             )
+            itemView.rocketLaunch_countryCodeView.text = countryCodeOfInterest
+
+            itemView.setBackgroundResource(if (countryCodeOfInterest == null) R.color.white else R.color.fluroYellow)
         }
     }
 }
