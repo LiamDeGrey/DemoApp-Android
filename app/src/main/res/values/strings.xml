@@ -3,4 +3,6 @@
 
     <!-- Main strings -->
     <string name="main_errorMessage">Rocket launches couldn\'t be loaded, try again later.</string>
+    <string name="main_launchedFrom">Launched from %s</string>
+
 </resources>

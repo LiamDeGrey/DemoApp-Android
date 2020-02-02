@@ -1,9 +1,12 @@
 package com.liamdegrey.rocketlaunches.ui.main
 
+import android.graphics.Rect
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.liamdegrey.rocketlaunches.R
 import com.liamdegrey.rocketlaunches.helpers.extensions.nonNullObserve
 import com.liamdegrey.rocketlaunches.network.models.RocketLaunch
@@ -27,9 +30,35 @@ class MainActivity : BaseActivity() {
         })
 
         main_rocketLaunchesList.adapter = rocketLaunchesAdapter
+        spaceRocketLaunchesList()
 
         setSupportActionBar(toolbar)
     }
+
+    //region: Private methods
+
+    private fun spaceRocketLaunchesList() {
+        main_rocketLaunchesList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            private val paddingStandard by lazy { resources.getDimensionPixelSize(R.dimen.padding_standard) }
+
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                super.getItemOffsets(outRect, view, parent, state)
+
+                val isFirstItem = parent.getChildAdapterPosition(view) == 0
+                outRect.top = if (isFirstItem) paddingStandard else 0
+                outRect.left = paddingStandard
+                outRect.right = paddingStandard
+                outRect.bottom = paddingStandard
+            }
+        })
+    }
+
+    //endregion
 
     //region: View methods
 
