@@ -7,5 +7,8 @@
 
     <!-- Detail strings -->
     <string name="detail_title">Details</string>
+    <string name="detail_launchedFrom">Launched from:</string>
+    <string name="detail_launchStatus">Launch status:</string>
+    <string name="detail_launchDate">Launch date:</string>
 
 </resources>

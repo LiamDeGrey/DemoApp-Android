@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <!-- Custom color palette -->
+    <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="errorRed">#BD5459</color>
     <color name="fluroYellow">#CCFF00</color>

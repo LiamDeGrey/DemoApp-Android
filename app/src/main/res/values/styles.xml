@@ -9,7 +9,7 @@
 
     <!-- Text styles -->
     <style name="Text" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Text.Body1">
@@ -18,6 +18,11 @@
 
     <style name="Text.Body1.Error">
         <item name="android:textColor">@color/errorRed</item>
+    </style>
+
+    <style name="Text.Header1">
+        <item name="android:textSize">@dimen/textSize_title</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- Toolbar style -->

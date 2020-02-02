@@ -28,7 +28,7 @@ class RocketLaunchView private constructor(context: Context) : CardView(context)
             Glide
                 .with(itemView)
                 .load(rocketLaunch.getPhotoUrl())
-                .placeholder(R.drawable.ic_refresh)
+                .placeholder(R.drawable.ic_hourglass)
                 .error(android.R.drawable.ic_delete)
                 .into(itemView.rocketLaunch_imageView)
 

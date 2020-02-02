@@ -26,6 +26,7 @@ data class RocketLaunch(
         }
 
     companion object {
+        const val ARGUMENT_KEY = "RocketLaunch"
         private val COUNTRY_CODES_OF_INTEREST = listOf("RUS", "CHN", "UNK")
     }
 }

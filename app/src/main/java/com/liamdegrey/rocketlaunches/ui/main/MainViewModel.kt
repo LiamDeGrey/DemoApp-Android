@@ -45,7 +45,7 @@ class MainViewModel(app: Application) : BaseViewModel(app) {
 
     fun onRocketLaunchViewClicked(position: Int) {
         rocketLaunches.value?.get(position)?.let {
-            startFragment(DetailFragment())
+            startFragment(DetailFragment.createFragment(it))
         }
     }
 
