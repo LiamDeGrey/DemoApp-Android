@@ -10,9 +10,9 @@ data class RocketLaunch(
     @JsonProperty("name") val name: String,
     @JsonProperty("img_url") private val imageUrl: String?,
     @JsonProperty("image_url") val fallbackImageUrl: String?,
-    @JsonProperty("pad") val launchPad: LaunchPad,
-    @JsonProperty("status") val launchStatus: LaunchStatus,
-    @JsonProperty("window_start") val date: DateTime,
+    @JsonProperty("pad") val launchPad: LaunchPad?,
+    @JsonProperty("status") val launchStatus: LaunchStatus?,
+    @JsonProperty("window_start") val date: DateTime?,
     @JsonProperty("mission") val mission: Mission?,
     @JsonProperty("rocket") val rocket: Rocket?
 ) : Parcelable {
@@ -21,7 +21,7 @@ data class RocketLaunch(
         imageUrl ?: fallbackImageUrl ?: rocket?.spacecraftStage?.spacecraft?.configuration?.imageUrl
 
     fun getLaunchCountryCode(): String? =
-        launchPad.location.countryCode.takeIf {
+        launchPad?.location?.countryCode?.takeIf {
             COUNTRY_CODES_OF_INTEREST.contains(it)
         }
 

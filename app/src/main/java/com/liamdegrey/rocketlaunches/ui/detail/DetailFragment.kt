@@ -37,9 +37,9 @@ class DetailFragment : BaseFragment() {
                 .into(detail_imageView)
         }
         detail_nameView.text = rocketLaunch.name
-        detail_locationValueView.text = rocketLaunch.launchPad.location.label
-        detail_statusValueView.text = rocketLaunch.launchStatus.label
-        detail_dateValueView.text = rocketLaunch.date.getSimpleDate()
+        detail_locationValueView.text = rocketLaunch.launchPad?.location?.label
+        detail_statusValueView.text = rocketLaunch.launchStatus?.label
+        detail_dateValueView.text = rocketLaunch.date?.getSimpleDate()
         detail_missionDescriptionView.text = rocketLaunch.mission?.description
     }
 

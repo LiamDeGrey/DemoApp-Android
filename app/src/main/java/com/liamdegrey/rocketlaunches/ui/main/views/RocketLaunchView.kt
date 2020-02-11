@@ -36,7 +36,7 @@ class RocketLaunchView private constructor(context: Context) : CardView(context)
             itemView.rocketLaunch_nameView.text = rocketLaunch.name
             itemView.rocketLaunch_locationView.text = itemView.context.getString(
                 R.string.main_launchedFrom,
-                rocketLaunch.launchPad.location.label
+                rocketLaunch.launchPad?.location?.label
             )
             itemView.rocketLaunch_countryCodeView.text = countryCodeOfInterest
 
