@@ -1,109 +1,132 @@
 package com.liamdegrey.rocketlaunches.ui.main
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.liamdegrey.rocketlaunches.App
 import com.liamdegrey.rocketlaunches.R
 import com.liamdegrey.rocketlaunches.helpers.extensions.mock
+import com.liamdegrey.rocketlaunches.helpers.extensions.whenever
 import com.liamdegrey.rocketlaunches.network.brokers.DataBroker
 import com.liamdegrey.rocketlaunches.network.models.RocketLaunch
-import com.liamdegrey.rocketlaunches.network.models.UpcomingRocketLaunches
-import com.liamdegrey.rocketlaunches.rules.RxImmediateSchedulerRule
-import io.reactivex.Single
-import org.junit.Before
-import org.junit.Rule
+import com.liamdegrey.rocketlaunches.ui.common.BaseFragment
+import com.liamdegrey.rocketlaunches.ui.common.BaseViewModelTest
+import com.liamdegrey.rocketlaunches.ui.detail.DetailFragment
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyList
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
-import org.mockito.Mockito.inOrder
-import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.Mockito.`when` as whenever
+import org.mockito.Mockito.*
 
 
-@RunWith(MockitoJUnitRunner::class)
-class MainViewModelTest {
-    @Rule
-    @JvmField
-    val instantExecutorRule = InstantTaskExecutorRule()
-
-    @Rule
-    @JvmField
-    var testSchedulerRule = RxImmediateSchedulerRule()
-
-    @Mock
-    private lateinit var mockApp: App
+class MainViewModelTest : BaseViewModelTest() {
     @Mock
     private lateinit var mockDataBroker: DataBroker
 
-    private val viewModel by lazy { MainViewModel(mockApp) }
+    override val viewModel by lazy { MainViewModel(mockApp) }
 
 
-    @Before
-    fun setup() {
+    override fun setup() {
+        super.setup()
+
         whenever(mockApp.dataBroker).thenReturn(mockDataBroker)
     }
 
     @Test
-    fun `loading starts and stops`() {
-        setValidDataBrokerGetUpcomingRocketLaunchesResponse()
+    fun `attach()`() {
+        forceValidServiceResponse(mockDataBroker.getUpcomingRocketLaunches())
 
         val isLoadingObserver: Observer<Boolean> = mock()
         viewModel.isLoading.observeForever(isLoadingObserver)
 
         viewModel.attach(null)
 
-        val inOrder = inOrder(isLoadingObserver)
-        inOrder.verify(isLoadingObserver).onChanged(true)
-        inOrder.verify(isLoadingObserver).onChanged(false)
+        verify(isLoadingObserver).onChanged(true)
     }
 
     @Test
-    fun `refreshing stops`() {
-        setValidDataBrokerGetUpcomingRocketLaunchesResponse()
+    fun `refreshData() success`() {
+        forceValidServiceResponse(mockDataBroker.getUpcomingRocketLaunches())
+
+        val isLoadingObserver: Observer<Boolean> = mock()
+        viewModel.isLoading.observeForever(isLoadingObserver)
 
         val isRefreshingObserver: Observer<Boolean> = mock()
         viewModel.isRefreshing.observeForever(isRefreshingObserver)
 
-        viewModel.attach(null)
-
-        verify(isRefreshingObserver).onChanged(false)
-    }
-
-    @Test
-    fun `refreshData() succeeds`() {
-        setValidDataBrokerGetUpcomingRocketLaunchesResponse()
-
         val rocketLaunchesObserver: Observer<List<RocketLaunch>> = mock()
         viewModel.rocketLaunches.observeForever(rocketLaunchesObserver)
 
-        viewModel.refreshData()
+        val errorMessageObserver: Observer<String?> = mock()
+        viewModel.errorMessage.observeForever(errorMessageObserver)
 
+        viewModel.attach(null)
+
+        //isLoading
+        val inOrder = inOrder(isLoadingObserver)
+        inOrder.verify(isLoadingObserver).onChanged(true)
+        inOrder.verify(isLoadingObserver).onChanged(false)
+
+        //isRefreshing
+        verify(isRefreshingObserver).onChanged(false)
+
+        //rocketLaunches
         verify(rocketLaunchesObserver).onChanged(anyList())
+
+        //errorMessage
+        verify(errorMessageObserver, never()).onChanged(anyString())
     }
 
     @Test
-    fun `refreshData() fails`() {
+    fun `refreshData() failure`() {
         val errorMessage = "Error message"
         whenever(mockApp.getString(R.string.main_errorMessage)).thenReturn(errorMessage)
-        whenever(mockDataBroker.getUpcomingRocketLaunches()).thenReturn(Single.error(Throwable()))
+        forceInvalidServiceResponse(mockDataBroker.getUpcomingRocketLaunches())
+
+        val isLoadingObserver: Observer<Boolean> = mock()
+        viewModel.isLoading.observeForever(isLoadingObserver)
+
+        val isRefreshingObserver: Observer<Boolean> = mock()
+        viewModel.isRefreshing.observeForever(isRefreshingObserver)
+
+        val rocketLaunchesObserver: Observer<List<RocketLaunch>> = mock()
+        viewModel.rocketLaunches.observeForever(rocketLaunchesObserver)
 
         val errorMessageObserver: Observer<String?> = mock()
         viewModel.errorMessage.observeForever(errorMessageObserver)
 
         viewModel.refreshData()
 
+        //isLoading
+        verify(isLoadingObserver).onChanged(false)
+
+        //isRefreshing
+        verify(isRefreshingObserver).onChanged(false)
+
+        //rocketLaunches
+        verify(rocketLaunchesObserver, never()).onChanged(anyList())
+
+        //errorMessage
         verify(errorMessageObserver).onChanged(errorMessage)
     }
 
-    //region: Private methods
+    @Test
+    fun `onRocketLaunchViewClicked() success`() {
+        val newFragmentObserver: Observer<BaseFragment> = mock()
+        viewModel.newFragment.observeForever(newFragmentObserver)
+        viewModel.rocketLaunches.value = listOf(mock())
 
-    private fun setValidDataBrokerGetUpcomingRocketLaunchesResponse() =
-        whenever(mockDataBroker.getUpcomingRocketLaunches())
-            .thenReturn(
-                Single.just(UpcomingRocketLaunches(emptyList()))
-            )
+        viewModel.onRocketLaunchViewClicked(0)
 
-    //endregion
+        //newFragment
+        verify(newFragmentObserver).onChanged(any(DetailFragment::class.java))
+    }
+
+    @Test
+    fun `onRocketLaunchViewClicked() failure`() {
+        val newFragmentObserver: Observer<BaseFragment> = mock()
+        viewModel.newFragment.observeForever(newFragmentObserver)
+
+        viewModel.onRocketLaunchViewClicked(0)
+
+        //newFragment
+        verify(newFragmentObserver, never()).onChanged(any(DetailFragment::class.java))
+    }
 }
