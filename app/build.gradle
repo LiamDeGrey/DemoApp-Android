@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 
-def versionBuild = 2//Resets each time versionName is incremented
+def versionBuild = 3//Resets each time versionName is incremented
 
 android {
     compileSdkVersion 29
@@ -12,7 +12,7 @@ android {
         targetSdkVersion 29
 
         versionName "1.0"
-        versionCode 3
+        versionCode 4
 
         applicationId "com.liamdegrey.demoapp"
 
