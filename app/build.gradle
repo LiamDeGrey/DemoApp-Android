@@ -65,12 +65,12 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     //Network
-    implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.2.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.6.1"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
 
     //Deserialization
-    implementation "com.squareup.retrofit2:converter-jackson:2.3.0"
+    implementation "com.squareup.retrofit2:converter-jackson:2.6.1"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.10.2"
 
