@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rocket Launches</string>
+    <string name="app_name">Demo App</string>
 
     <!-- Main strings -->
     <string name="main_errorMessage">Rocket launches couldn\'t be loaded, try again later.</string>

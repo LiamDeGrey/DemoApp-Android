@@ -42,7 +42,7 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.liamdegrey.rocketlaunches.ui.common.views.LoadingView
+    <com.liamdegrey.demoapp.ui.common.views.LoadingView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -1,4 +1,4 @@
-# RocketLaunches-Android
+# Demo App
 
 Quick project built up in a few spare hours.
 Created purely to show off the style of my development practise, minimal time has been spent designing and creating the UI.

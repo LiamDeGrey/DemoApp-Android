@@ -14,7 +14,7 @@ android {
         versionName "1.0"
         versionCode 3
 
-        applicationId "com.liamdegrey.rocketlaunches"
+        applicationId "com.liamdegrey.demoapp"
 
         //URL is the same across environments
         buildConfigField("String", "SERVICE_BASEURL", "\"https://spacelaunchnow.me\"")
